@@ -1,0 +1,78 @@
+Instructions on Simple demo of using Azure Event Hub to push data into Azure blob 
+
+Reference: https://blog.knoldus.com/how-to-send-recieve-data-in-azure-event-hub-with-python/
+
+Steps:
+------
+1) Start your subscription of Azure and create a new resource group, use the following configurations:
+     - Resouce group name: rg-eventhub1000
+     - Region: uksouth
+
+2) Create Event Hub Namespace: From Azure services list search and select the "Event Hub" service and create it using the following configuration:
+    - Subscription: Azure subscription 1
+    - Resource Group: rg-eventhub1000
+    - Namespace name: knolduseventhub
+    - Location: uksouth
+    - Pricing tier: Basic
+    - Throughput Units: 1 Mb/s
+    - Rest remains as the default
+
+3) Create an Event Hub: Create an event hub within the namespace, do the following actions:
+    3.1) On the Overview page, select + Event hub on the command bar
+    3.2) Create your event hub, then select Review + create with the following configurations:
+        - Name: knoldusevent
+        - Partition count: 2
+        - Retention:
+            - Cleanup Policy: Delete
+            - Retention time(hrs): 1
+        - Capture: Not Available in the Basic tier namespace
+
+4) Create storage resouce. We need a blob container to store the inputs from the receiver part. So we will create a storage account and then attach a blob container to it:
+    4.1) Create the storage account:
+        - From Azure services list search and select the "Storage Accounts" service and create it using the following configuration:
+            -  Subscription: Azure subscription 1
+            - Resource group: rg-eventhub1000
+            - Name: knoldusstorage
+            - Performance: Standard
+             -Redundancy: Locally-redundant storage (LRS)
+             -Network access: Enable public access from all networks
+             -Routing preference: Internet routing
+             -Encryption type: Microsoft-managed keys (MMK)
+             -Rest configurations are default one
+    4.2) Create Blob Container in the storage account:
+        - Navigate to the Data Storage section of the storage account and open containers. And then, create a blob container (i.e. using + Container) with the following configurations:
+            - Name: knoldusblob
+            - Public access level: Container
+            - Create the blob container
+5) Install python libraries required for the send/recieve scripts of the event hub. Invoke the pip installtion using:
+    - pip install azure-eventhub
+    - pip install azure-identity
+    - pip install aiohttp
+     -pip install azure-eventhub-checkpointstoreblob-aio
+    - pip install asyncio
+
+6) Create Event Hub connection string:
+    - Navigate to the created Event Hub Namespace: knolduseventhub
+    - Select the created Event Hub (i.e. in the Event Hubs section): knolduseventhub/knoldusevent
+    - Create a policy with the following configurations:
+        - Select: Connect
+        - Select: + Add
+        - Policy Name: RootPolicyAccess
+        - Manage: True
+        - Create
+    - Extract the connection string for the created SAS policy: Connection string–primary key
+
+7) Extract the Storage Account: knoldusstorage Connection string from the security+networking section in the Access keys section:
+    - Find the Connection string field
+    - Dispaly the value by selection "show"
+    - Copy the value to the clipboard
+
+8) Create the send and recive asynchronous python code in the SendMessage.py and ReceiveMessage.py scripts (i.e. which as been added to the repo):
+    - SendMessage.py: Send messages from the event hub to the blob container storage account
+    - RecieveMessage.py: Recieve messages from the blob container storage account
+    - Configure the Event Hub name and connection string in the scripts
+    - For the RecieveMessage.py script configure the BLOB_STORAGE_CONNECTION_STRING and BLOB_CONTAINER_NAME
+
+9) 
+
+    
