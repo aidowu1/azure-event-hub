@@ -8,6 +8,7 @@ Steps:
 1) Open Git Bash.
 
 2) Generate the privte/public ssh keys:
+    - ssh-keygen -o -t rsa -C "adeidowu@hotmail.com"
     - ssh-keygen -t ed25519 -C "adeidowu@hotmail.com"
         - This creates a new SSH key, using the provided email as a label
         - The output of this step include:
