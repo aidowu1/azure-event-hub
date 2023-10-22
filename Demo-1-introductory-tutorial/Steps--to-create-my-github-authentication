@@ -36,3 +36,14 @@ Steps:
     - Under the title section, add a name to your key. Then in the key section, paste the key that we copied from our terminal. Finally, click on Add SSH key
 
 6) For more details from here: https://medium.com/featurepreneur/setting-up-ssh-key-with-github-for-ubuntu-cd8f2fabf25b
+
+7) Notes on git push of changes to a remote repo. The steps include:
+    - Create the remote repo in Git:
+        - Follow the instructions described here: https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository
+    - On the local pc/laptop push the changes in the local repo after the local commit with these steps:
+        - git push origin main
+            - You might get a response such as:
+                - fatal: unable to access 'https://github.com/aidowu1/azure-event-hub.git/': gnutls_handshake() failed: The TLS connection was non-properly terminated.
+            - To fix this, please invoke the following:
+                - git config --global http.sslVerify false
+
